@@ -150,7 +150,11 @@ pub fn init_logger(loglevel: LevelFilter) {
     logbuilder.target(env_logger::Target::Stdout);
 
     // if RUST_LOG is setted, and `-l` arg is not provided or default, use RUST_LOG
-    if loglevel != LevelFilter::Info && env::var("RUST_LOG").is_ok() {
+    if loglevel == LevelFilter::Info {
+        if env::var("RUST_LOG").is_err() {
+            logbuilder.filter_level(loglevel);
+        }
+    } else {
         logbuilder.filter_level(loglevel);
     }
 
