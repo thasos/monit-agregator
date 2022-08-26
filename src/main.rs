@@ -1,65 +1,43 @@
-use config::Config;
-use monit_agregator::BindAddress;
-// TODO clap pour options
+mod conf;
+mod http_server;
+mod monit_request;
+mod status_generation;
 
-/// get conf from file for binding ip and port
-/// and host list with url of monit for each
-fn get_conf() -> (BindAddress, Vec<(String, String)>) {
-    // TODO faire une struct Config...
-    let bind_address: BindAddress;
-    let mut hosts_urls: Vec<(String, String)> = Vec::new();
+#[macro_use]
+extern crate log; // env_logger
+use std::thread;
+use tokio::sync::watch;
 
-    // default config_file_path
-    let config_file_path = "Settings.yaml";
+#[tokio::main]
+async fn main() {
+    // build conf
+    //conf::set_loglevel();
+    let conf = conf::get_conf();
+    const CARGO_PKG_VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
+    info!(
+        "starting up... version={}",
+        CARGO_PKG_VERSION.unwrap_or("not found")
+    );
 
-    // get conf from file and env
-    match Config::builder()
-        .add_source(config::File::with_name(config_file_path))
-        .add_source(config::Environment::with_prefix("MONAGR"))
-        .build()
-    {
-        Ok(settings) => {
-            // 🤮🤮🤮🤮🤮🤮🤮🤮🤮🤮
-            let debug_mode = settings.get_string("debug").unwrap();
-            if !debug_mode.is_empty() {
-                println!("env: debug = {}", debug_mode);
-            } else {
-                println!("env: debug = false");
-            }
+    let bind_address = conf.bind_address;
+    let hosts_urls = conf.hosts_urls;
+    let wait_period = conf.wait_period;
 
-            // récup ip et port pour en faire un bind
-            let ip = settings.get_string("ip").unwrap();
-            let port: u16 = settings.get_int("port").unwrap() as u16;
-            bind_address = BindAddress::new(ip.as_str(), port);
+    // channel for status homepage creation
+    // TODO homepage vide / skeleton à construire ici
+    let (tx, rx) = watch::channel(String::from("homepage en cours de construction"));
 
-            // hosts and urls
-            // TODO can refactor chaining `get_array` and `into_table` ?
-            if let Ok(hosts_list) = settings.get_array("hosts") {
-                for host in hosts_list {
-                    if let Ok(host_and_url) = host.into_table() {
-                        for (hostname, url) in &host_and_url {
-                            //println!("{}: {}", hostname, url);
-                            hosts_urls.push((hostname.to_string(), url.to_string()));
-                        }
-                    };
-                }
-            };
-        }
-        Err(e) => {
-            println!("warn: could not open {} : {}", config_file_path, e);
-            // need default address to liston on
-            bind_address = BindAddress::default();
-            // if no host / urls found, server start but no with proxy...
-        }
+    let server_hosts_urls = hosts_urls.clone();
+    thread::spawn(move || {
+        http_server::serve_http(bind_address, server_hosts_urls, rx);
+    });
+
+    // https://stackoverflow.com/questions/62536566/how-can-i-create-a-tokio-runtime-inside-another-tokio-runtime-without-getting-th
+    let generation_loop_status_thread = thread::spawn(move || {
+        status_generation::generate_home(hosts_urls, tx, wait_period);
+    })
+    .join();
+    if generation_loop_status_thread.is_err() {
+        error!("unable to start loop generation status")
     };
-    (bind_address, hosts_urls)
-}
-
-fn main() {
-    let conf = get_conf();
-    let bind_address = conf.0;
-    let hosts_urls = conf.1;
-
-    // let's start server
-    monit_agregator::serve_http(bind_address.ip, bind_address.port, hosts_urls);
 }
