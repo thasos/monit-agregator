@@ -2,6 +2,27 @@
 name = "monit-agregator"
 version = "0.1.0"
 edition = "2021"
+description = "Watchdog Monit agregator, like M/Monit"
+documentation = "https://gitlab.com/thasos/monit-agregator"
+repository = "https://gitlab.com/thasos/monit-agregator"
+keywords = ["monitoring"]
+categories = ["web-programming"]
+license-file = "LICENSE.txt"
+readme = "README.md"
+publish = true
+
+[package.metadata.deb]
+maintainer = "Thasos Kanan <thasos@thasmanie.fr>"
+copyright = "2022, Thasos Kanan <thasos@thasmanie.fr>"
+license-file = ["LICENSE.txt", "0"]
+extended-description = "Watchdog Monit agregator, like M/Monit"
+depends = "$auto"
+section = "utility"
+priority = "optional"
+assets = [
+    ["target/release/monit-agregator", "usr/bin/", "755"],
+    ["README.md", "usr/share/doc/monit-agregator/README", "644"],
+]
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
