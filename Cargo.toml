@@ -20,4 +20,8 @@ unicode-segmentation = "1.9.0"
 mockito = "0.31"
 
 [profile.release]
-panic = 'abort'
+panic = 'abort' # No unwinding on panic
+strip = true  # Automatically strip symbols from the binary.
+opt-level = "s"  # Optimize for size.
+lto = true
+codegen-units = 1
