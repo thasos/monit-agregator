@@ -1,0 +1,23 @@
+FROM rust:alpine3.16 AS builder
+
+WORKDIR /opt/monit-agregator
+COPY . .
+
+# hadolint ignore=DL3018
+RUN apk add --no-cache pkgconfig openssl-dev libc-dev # build prereqs
+# hadolint ignore=DL3059
+RUN cargo build --release
+
+#--------------------------------
+FROM alpine:3.16
+RUN addgroup -S monagr \
+ && adduser -S monagr -G monagr
+# hadolint ignore=DL3018
+RUN apk add --no-cache libssl3 # runtime prereqs
+
+COPY --from=builder /opt/monit-agregator/target/release/monit-agregator /opt/
+COPY Settings.yaml /opt/
+
+USER monagr
+CMD ["/opt/monit-agregator", "-l", "info", "-c", "/opt/Settings.yaml"]
+# still segfault 🙁
