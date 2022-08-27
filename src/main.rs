@@ -16,7 +16,7 @@ async fn main() {
     const CARGO_PKG_VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
     info!(
         "starting up... version={}",
-        CARGO_PKG_VERSION.unwrap_or("not found")
+        CARGO_PKG_VERSION.unwrap_or("version not found")
     );
 
     let bind_address = conf.bind_address;

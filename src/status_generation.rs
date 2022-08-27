@@ -115,23 +115,34 @@ fn parse_monit_report(monit_report: &str) -> MonitReport {
 
 fn display_monit_report(report: MonitReport) -> String {
     // percent_up color
-    let (color, pretty_percent_up) = match report.percent_up {
+    //let (color, pretty_percent_up) = match report.percent_up {
+    //    Some(percent) => {
+    //        let color = if percent == 100.0 { "green" } else { "red" };
+    //        (color, percent.to_string())
+    //    }
+    //    None => ("orange", String::from("⚠️ unknow ⚠️")),
+    //};
+    //let highlighted_percent_up = format!("<font color={}>{}</font></h2>", color, pretty_percent_up);
+
+    let highlighted_percent_up = match report.percent_up {
         Some(percent) => {
-            let color = if percent == 100.0 { "green" } else { "red" };
-            (color, percent.to_string())
+            if percent == 100.0 {
+                format!("<font color=green>✅ {} ✅</font></h2>", percent)
+            } else {
+                format!("<font color=red>☠️ {} ☠️</font></h2>", percent)
+            }
         }
-        None => ("orange", String::from("⚠️ unknow ⚠️")),
+        None => String::from("<font color=orange>⚠️ unknow ⚠️</font></h2>"),
     };
-    let highlighted_percent_up = format!("<font color={}>{}</font></h2>", color, pretty_percent_up);
 
     // pretty print in html
     let parsed_report = format!(
         "{}
-        up: <b>{}</b><br />
-        down: <b>{}</b><br />
-        initialising: <b>{}</b><br />
-        unmonitored: <b>{}</b><br />
-        total: <b>{}</b>",
+        up: {}<br />
+        down: {}<br />
+        initialising: {}<br />
+        unmonitored: {}<br />
+        total: {}",
         highlighted_percent_up,
         report.get_nb_up(),
         report.get_nb_down(),
@@ -186,17 +197,25 @@ pub async fn generate_home(
                 None => monit_hosts_list[position].url.clone(),
             };
 
-            // TODO table display ? (check mobile)
+            // if three th, do a tr
+            let rest = (position + 1) % 3;
+            let is_divisible = rest == 0;
+            let table_new_line = if is_divisible { "</tr>\n<tr>\n" } else { "" };
+
+            // add a html th
             pretty_status = format!(
-                "{}<h2><a href=\"{}\">{}</a> : {}<br />\n",
+                "{}<th><h2><a href=\"{}\">{}</a><br />\n{}</th>\n{}",
                 &pretty_status,
                 url_link,
                 host.name.clone(),
                 pretty_report,
+                table_new_line,
             );
 
             // incremetale send
             // TODO display a message "refresh in progress" ?
+            // TODO error si 2 fois le même host ⚠️⚠️⚠️⚠️⚠️⚠️
+            // [2022-08-27T12:20:02Z ERROR monit_agregator::monit_request] thread channel error : sending on a closed channel
             match tx.send(pretty_status.clone()) {
                 Ok(_) => debug!("homepage status sended to channel"),
                 Err(_) => error!("unable to send status on channel"),
