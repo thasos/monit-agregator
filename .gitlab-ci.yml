@@ -19,7 +19,7 @@ build:
       - target/release/${CI_PROJECT_NAME}
       - target/debian/${CI_PROJECT_NAME}_0.1.0_amd64.deb
     reports:
-      dotenv: build.end
+      dotenv: build.env
   rules:
     - if: $CI_COMMIT_TAG
 
