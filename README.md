@@ -4,7 +4,9 @@
 
 Web interface for visualize the status of multiples Monit instances.
 
-[Monit](https://mmonit.com/wiki/Monit/HowTo) is a free open source utility for managing and monitoring, processes, programs, files, directories and filesystems on a UNIX system. You can see status of services with a webui, but only for one host.
+[Monit](https://mmonit.com/wiki/Monit/HowTo) is a free open source utility for managing and monitoring, processes, programs, files, directories and filesystems on a UNIX system.
+
+You can see status of services with a webui, but only for one host.
 You can see all hosts with [M/Monit](https://mmonit.com/wiki/MMonit/Setup), but it's not free and open source 😥, Monit-Agregator is a very light alternative.
 
 ## Screenshot
@@ -43,6 +45,12 @@ hosts:
     public_url: "https://monit.domain.com/host1/"  # optional
   - name: "host2"
     url: "http://192.168.0.2:28"
+```
+
+## Start
+
+```
+monit-agregator -c Settings.yaml
 ```
 
 ## Usage
