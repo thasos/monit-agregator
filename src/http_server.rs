@@ -23,6 +23,7 @@ pub async fn serve_http(
     //     Response::builder()
     //   .header("my-custom-header", "some-value")
     //   .body("and a custom body")
+    // TODO add "refresh all" button, and print the value of refresh_period
     const CARGO_PKG_VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
     let html_head = "<!DOCTYPE html>
 <html lang=\"us\">
