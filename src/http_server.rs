@@ -34,6 +34,10 @@ pub async fn serve_http(
         <!-- css from w3c -->
         <link rel=\"stylesheet\" href=\"css/w3.css\">
         <link rel=\"stylesheet\" href=\"css/w3-theme-dark-grey.css\">
+        <!-- disable cache -->
+        <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\">
+        <meta http-equiv=\"Pragma\" content=\"no-cache\">
+        <meta http-equiv=\"Expires\" content=\"0\">
     </head>
     <body class=\"w3-theme-dark\">
             <div class=\"w3-panel\">

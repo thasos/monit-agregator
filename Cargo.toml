@@ -1,6 +1,6 @@
 [package]
 name = "monit-agregator"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Watchdog Monit agregator, like M/Monit"
 documentation = "https://gitlab.com/thasos/monit-agregator"
