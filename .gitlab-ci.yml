@@ -31,10 +31,6 @@ release_job:
   needs:
     - job: build
       artifacts: true
-  # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
-  # https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-  # https://docs.gitlab.com/ee/user/project/releases/release_cicd_examples.html#create-a-release-when-a-git-tag-is-created
-  # https://crypt.codemancers.com/posts/2021-08-31-release-artifacts-using-gitlab-cicd/
   release:
     name: 'Release Executables $CI_COMMIT_SHORT_SHA'
     tag_name: '$CI_COMMIT_SHORT_SHA'
