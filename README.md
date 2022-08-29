@@ -1,7 +1,5 @@
 # Monit-Agregator
 
-## Intro
-
 Web interface for visualize the status of multiples Monit instances.
 
 [Monit](https://mmonit.com/wiki/Monit/HowTo) is a free open source utility for managing and monitoring, processes, programs, files, directories and filesystems on a UNIX system.
