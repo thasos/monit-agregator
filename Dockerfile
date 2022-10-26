@@ -15,7 +15,7 @@ RUN groupadd -g 1000 monagr  \
 
 # runtime prereqs
 RUN apt-get update  \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y libssl3  \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y libssl1.1  \
  && apt-get clean  \
  && rm -rf /var/lib/apt/lists/*
 
