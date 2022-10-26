@@ -85,7 +85,7 @@ pub async fn serve_http(
             </div>",
             pretty_status
         );
-        warp::reply::html(format!("{}\n{}\n{}", html_head, html_body, html_foot))
+        warp::reply::html(format!("{html_head}\n{html_body}\n{html_foot}"))
     });
 
     let other_paths = warp::path!(String).map(move |subpath: String| {

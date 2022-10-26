@@ -72,11 +72,7 @@ fn parse_monit_report(monit_report: &str) -> MonitReport {
                         Ok(val) => Some(val),
                         Err(_) => None,
                     };
-                    report.percent_up = match splitted_value[1]
-                        .replace('(', "")
-                        .replace(')', "")
-                        .replace('%', "")
-                        .parse()
+                    report.percent_up = match splitted_value[1].replace(['(', ')', '%'], "").parse()
                     {
                         Ok(val) => Some(val),
                         Err(_) => None,
@@ -127,9 +123,9 @@ fn display_monit_report(report: MonitReport) -> String {
     let highlighted_percent_up = match report.percent_up {
         Some(percent) => {
             if percent == 100.0 {
-                format!("<font color=green>✅ {} ✅</font></h2>", percent)
+                format!("<font color=green>✅ {percent} ✅</font></h2>")
             } else {
-                format!("<font color=red>☠️ {} ☠️</font></h2>", percent)
+                format!("<font color=red>☠️ {percent} ☠️</font></h2>")
             }
         }
         None => String::from("<font color=orange>⚠️ unknow ⚠️</font></h2>"),

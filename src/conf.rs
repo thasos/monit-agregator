@@ -119,7 +119,7 @@ pub fn get_conf() -> MonitAgregatorConfig {
                     Err(_) => Duration::from_secs(default_wait_period),
                 }
             } else {
-                Duration::from_secs(args.refresh_period as u64)
+                Duration::from_secs(args.refresh_period)
             };
 
             debug!("refresh monit status period : {:?}", wait_period);
@@ -179,6 +179,6 @@ mod tests {
     fn test_get_conf() {
         let conf = get_conf();
         assert_eq!(conf.bind_address.ip(), &Ipv4Addr::new(0, 0, 0, 0));
-        assert_eq!(conf.bind_address.port(), 3030 as u16);
+        assert_eq!(conf.bind_address.port(), 3030_u16);
     }
 }

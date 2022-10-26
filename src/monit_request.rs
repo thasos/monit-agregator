@@ -45,7 +45,7 @@ pub fn get_monit(hosts_urls: Vec<MonitHosts>, hostname: &str) -> String {
                             let val = match response {
                                 Ok(response) => {
                                     debug!("response from monit ok, forward response body");
-                                    format!("{}\n", response)
+                                    format!("{response}\n")
                                 }
                                 // if monit does not return a 200 HTTP, proxy respond 500
                                 Err(_) => {
@@ -63,7 +63,7 @@ pub fn get_monit(hosts_urls: Vec<MonitHosts>, hostname: &str) -> String {
                         }
                         // if we cannot send http reqwest for some reason
                         Err(_) => {
-                            let msg = format!("error reqwesting {}", monit_url);
+                            let msg = format!("error reqwesting {monit_url}");
                             warn!("{}", msg);
                             match tx.send(msg) {
                                 Ok(_) => (),
@@ -115,7 +115,7 @@ mod tests {
         }];
         assert_eq!(
             get_monit(hosts_urls, hostname),
-            format!("{}\n", content_tested)
+            format!("{content_tested}\n")
         );
     }
 }
