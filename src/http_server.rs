@@ -25,26 +25,28 @@ pub async fn serve_http(
     //   .body("and a custom body")
     // TODO add "refresh all" button, and print the value of refresh_period
     const CARGO_PKG_VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
-    let html_head = "<!DOCTYPE html>
-<html lang=\"us\">
+    let html_head = r#"<!DOCTYPE html>
+<html lang="us">
     <head>
-        <meta charset=\"UTF-8\" />
-        <meta name=\"viewport\" content=\"width=device-width\" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
         <title>Monit Agregator</title>
         <!-- css from w3c -->
-        <link rel=\"stylesheet\" href=\"css/w3.css\">
-        <link rel=\"stylesheet\" href=\"css/w3-theme-dark-grey.css\">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/w3-theme-dark-grey.css">
         <!-- disable cache -->
-        <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\">
-        <meta http-equiv=\"Pragma\" content=\"no-cache\">
-        <meta http-equiv=\"Expires\" content=\"0\">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
     </head>
-    <body class=\"w3-theme-dark\">
-            <div class=\"w3-panel\">
+    <body class="w3-theme-dark">
+            <div class="w3-panel">
             <h1>Monit-Agregator</h1>
-        </div>";
-    let html_foot =
-        format!("<br /><div class=\"w3-twothird w3-panel\">version : {}<br /><a href=\"https://gitlab.com/thasos/monit-agregator/\">sources gitlab</a></div></body></html>", CARGO_PKG_VERSION.unwrap_or("version not found"));
+            </div>"#;
+    let html_foot = format!(
+        r#"<br /><div class="w3-twothird w3-panel">version : {}<br /><a href="https://gitlab.com/thasos/monit-agregator/">sources gitlab</a></div></body></html>"#,
+        CARGO_PKG_VERSION.unwrap_or("version not found")
+    );
 
     // css
     let css_w3 = include_bytes!("css/w3.css");
@@ -76,13 +78,14 @@ pub async fn serve_http(
         info!("homepage reqwested");
         let pretty_status = rx.borrow().to_owned();
         let html_body = format!(
-            "<div class=\"w3-twothird w3-panel\">
-                <table class=\"w3-table w3-centered\">
+            r#"
+            "<div class="w3-twothird w3-panel">
+                <table class="w3-table w3-centered">
                     <tr>
                         {}
                     </tr>
                 </table>
-            </div>",
+            </div>"#,
             pretty_status
         );
         warp::reply::html(format!("{html_head}\n{html_body}\n{html_foot}"))
