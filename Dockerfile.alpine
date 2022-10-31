@@ -1,10 +1,10 @@
-FROM rust:alpine3.16 AS builder
+FROM docker.io/library/rust:alpine3.16 AS builder
 
 WORKDIR /opt/monit-agregator
 COPY . .
 
 # hadolint ignore=DL3018
-RUN apk add --no-cache pkgconfig openssl-dev libc-dev # build prereqs
+RUN apk add --no-cache pkgconfig openssl-dev libc-dev just # build prereqs
 # hadolint ignore=DL3059
 RUN cargo build --release
 
