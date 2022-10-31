@@ -4,9 +4,11 @@ WORKDIR /opt/monit-agregator
 COPY . .
 
 # hadolint ignore=DL3018
-RUN apk add --no-cache pkgconfig openssl-dev libc-dev just # build prereqs
+RUN apk add --no-cache pkgconfig openssl-dev libc-dev just musl clang perl make \
+ && rustup toolchain install nightly \
+ && rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-musl
 # hadolint ignore=DL3059
-RUN cargo build --release
+RUN just release_musl
 
 #--------------------------------
 FROM alpine:3.16
@@ -15,7 +17,7 @@ RUN addgroup -S monagr \
 # hadolint ignore=DL3018
 RUN apk add --no-cache libssl3 # runtime prereqs
 
-COPY --from=builder /opt/monit-agregator/target/release/monit-agregator /opt/
+COPY --from=builder /opt/monit-agregator/target/x86_64-unknown-linux-musl/release/monit-agregator /opt/
 COPY Settings.yaml /opt/
 
 USER monagr
