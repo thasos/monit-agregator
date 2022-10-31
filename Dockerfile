@@ -1,27 +1,26 @@
-FROM rust:bullseye AS builder
+FROM docker.io/library/rust:alpine3.16 AS builder
 
 WORKDIR /opt/monit-agregator
 COPY . .
-RUN apt-get update  \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y librust-openssl-sys-dev  \
- && apt-get clean  \
- && rm -rf /var/lib/apt/lists/*
-RUN cargo build --release
 
-#------------------------
-FROM debian:sid
-RUN groupadd -g 1000 monagr  \
- && useradd -s /bin/bash --create-home -u 1000 -g 1000 monagr
+# hadolint ignore=DL3018
+RUN apk add --no-cache pkgconfig openssl-dev libc-dev just musl clang perl make upx \
+ && rustup toolchain install nightly \
+ && rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-musl
+# hadolint ignore=DL3059
+RUN just release_musl \
+ && upx target/x86_64-unknown-linux-musl/release/monit-agregator
 
-# runtime prereqs
-RUN apt-get update  \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y libssl1.1  \
- && apt-get clean  \
- && rm -rf /var/lib/apt/lists/*
+#--------------------------------
+FROM alpine:3.16
+RUN addgroup -S monagr \
+ && adduser -S monagr -G monagr
+# hadolint ignore=DL3018
+RUN apk add --no-cache libssl3 # runtime prereqs
 
-COPY --from=builder /opt/monit-agregator/target/release/monit-agregator /opt/
-#COPY target/release/monit-agregator /opt/
+COPY --from=builder /opt/monit-agregator/target/x86_64-unknown-linux-musl/release/monit-agregator /opt/
 COPY Settings.yaml /opt/
 
 USER monagr
 CMD ["/opt/monit-agregator", "-l", "info", "-c", "/opt/Settings.yaml"]
+# still segfault 🙁
