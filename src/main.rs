@@ -24,8 +24,8 @@ async fn main() {
     let wait_period = conf.wait_period;
 
     // channel for status homepage creation
-    // TODO homepage vide / skeleton à construire ici
-    let (tx, rx) = watch::channel(String::from("homepage en cours de construction"));
+    // TODO homepage vide / build skeleton here
+    let (tx, rx) = watch::channel(String::from("homepage build in progress"));
 
     let server_hosts_urls = hosts_urls.clone();
     thread::spawn(move || {

@@ -158,7 +158,7 @@ pub fn init_logger(loglevel: LevelFilter) {
         logbuilder.filter_level(loglevel);
     }
 
-    // TODO afficher les logs des dependances ou pas ?
+    // TODO print dependencies logs ?
     logbuilder
         .filter(Some("reqwest::"), log::LevelFilter::Off)
         .filter(Some("hyper::"), log::LevelFilter::Off)

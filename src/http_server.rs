@@ -92,14 +92,14 @@ pub async fn serve_http(
     });
 
     let other_paths = warp::path!(String).map(move |subpath: String| {
-        // le move sert à hosts_urls
+        // move is used by hosts_urls
         info!("client reqwested host '{}'", subpath);
         match subpath.as_str() {
             "favicon.ico" => warp::reply::html(String::from("no favicon yet\n")),
-            // TODO créer la page help
+            // TODO create help page
             "help" => warp::reply::html("HEEEEEELP\n".to_owned()),
             _ => {
-                // faut cloner hosts_urls dans ce scope car get_monit prend l'ownership
+                // must clone hosts_urls in this scope because get_monit take ownership
                 warp::reply::html(String::from("not found\n"))
             }
         }

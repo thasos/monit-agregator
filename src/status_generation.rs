@@ -59,7 +59,7 @@ fn parse_monit_report(monit_report: &str) -> MonitReport {
     };
     // feed the report
     for line in monit_report.split('\n') {
-        // check if line is parsable
+        // check if line can be parsed
         if line.contains(": ") {
             let splitted_line: Vec<&str> = line.split(':').collect(); // ["up", "            85 (100.0%)"]
             let field = splitted_line[0];
@@ -208,9 +208,9 @@ pub async fn generate_home(
                 table_new_line,
             );
 
-            // incremetale send
+            // incremental send
             // TODO display a message "refresh in progress" ?
-            // TODO error si 2 fois le même host ⚠️⚠️⚠️⚠️⚠️⚠️
+            // TODO error if same host twice ⚠️⚠️⚠️⚠️⚠️⚠️
             // [2022-08-27T12:20:02Z ERROR monit_agregator::monit_request] thread channel error : sending on a closed channel
             match tx.send(pretty_status.clone()) {
                 Ok(_) => debug!("homepage status sended to channel"),
