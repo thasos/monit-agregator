@@ -13,8 +13,6 @@ You can see all hosts with [M/Monit](https://mmonit.com/wiki/MMonit/Setup), but 
 
 ## Installation
 
-You can find binary and .deb in the [release](https://gitlab.com/thasos/monit-agregator/-/releases) page.
-
 With **cargo** :
 ```
 cargo install monit-agregator
@@ -22,7 +20,7 @@ cargo install monit-agregator
 
 From sources :
 ```
-git clone https://gitlab.com/thasos/monit-agregator
+git clone https://codeberg.org/thasos/monit-agregator
 cd monit-agregator
 cargo build --release
 ls -l target/release/monit-agregator

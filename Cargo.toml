@@ -1,10 +1,10 @@
 [package]
 name = "monit-agregator"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "Watchdog Monit agregator, like M/Monit"
-documentation = "https://gitlab.com/thasos/monit-agregator"
-repository = "https://gitlab.com/thasos/monit-agregator"
+documentation = "https://codeberg.org/thasos/monit-agregator"
+repository = "https://codeberg.org/thasos/monit-agregator"
 keywords = ["monitoring"]
 categories = ["web-programming"]
 license-file = "LICENSE.txt"
