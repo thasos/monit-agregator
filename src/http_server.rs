@@ -44,7 +44,7 @@ pub async fn serve_http(
             <h1>Monit-Agregator</h1>
             </div>"#;
     let html_foot = format!(
-        r#"<br /><div class="w3-twothird w3-panel">version : {}<br /><a href="https://codeberg.org/thasos/monit-agregator">sources</a></div></body></html>"#,
+        r#"<br /><div class="w3-twothird w3-panel">version : {}<br /><a href="https://github.com/thasos/monit-agregator">sources</a></div></body></html>"#,
         CARGO_PKG_VERSION.unwrap_or("version not found")
     );
 

@@ -20,7 +20,7 @@ cargo install monit-agregator
 
 From sources :
 ```
-git clone https://codeberg.org/thasos/monit-agregator
+git clone https://github.com/thasos/monit-agregator
 cd monit-agregator
 cargo build --release
 ls -l target/release/monit-agregator
