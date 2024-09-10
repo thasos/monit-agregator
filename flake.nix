@@ -18,7 +18,7 @@
             pkgs.cargo-insta # snapshot testing
             pkgs.cargo-outdated
             # project specific
-            pkgs.pkg-config pkgs.glib.dev # needed for linking C libraries (cairo, poppler, libarchive)
+            pkgs.pkg-config # needed for linking C libraries (cairo, poppler, libarchive)
             pkgs.openssl
           ];
           RUSTC_VERSION = overrides.toolchain.channel;
