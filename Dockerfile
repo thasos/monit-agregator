@@ -1,4 +1,4 @@
-FROM docker.io/library/rust:alpine3.18 AS builder
+FROM docker.io/library/rust:alpine3.20 AS builder
 
 WORKDIR /opt/monit-agregator
 COPY . .
@@ -12,9 +12,10 @@ RUN just release_musl \
  && upx target/x86_64-unknown-linux-musl/release/monit-agregator
 
 #--------------------------------
-FROM alpine:3.18
-RUN addgroup -S monagr \
- && adduser -S monagr -G monagr
+FROM alpine:3.20
+
+RUN addgroup -g 10666 -S monagr \
+ && adduser -u 10666 -S monagr -G monagr
 # hadolint ignore=DL3018
 RUN apk add --no-cache libssl3 # runtime prereqs
 
