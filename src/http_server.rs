@@ -32,19 +32,19 @@ pub async fn serve_http(
         <meta name="viewport" content="width=device-width" />
         <title>Monit Agregator</title>
         <!-- css from w3c -->
-        <link rel="stylesheet" href="css/w3.css">
-        <link rel="stylesheet" href="css/w3-theme-dark-grey.css">
+        <!-- <link rel="stylesheet" href="css/w3.css"> -->
+        <!-- <link rel="stylesheet" href="css/w3-theme-dark-grey.css"> -->
         <!-- disable cache -->
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
     </head>
-    <body class="w3-theme-dark">
-            <div class="w3-panel">
+    <body>
+            <div>
             <h1>Monit-Agregator</h1>
             </div>"#;
     let html_foot = format!(
-        r#"<br /><div class="w3-twothird w3-panel">version : {}<br /><a href="https://github.com/thasos/monit-agregator">sources</a></div></body></html>"#,
+        r#"<br /><div>version : {}<br /><a href="https://github.com/thasos/monit-agregator">sources</a></div></body></html>"#,
         CARGO_PKG_VERSION.unwrap_or("version not found")
     );
 
@@ -79,8 +79,8 @@ pub async fn serve_http(
         let pretty_status = rx.borrow().to_owned();
         let html_body = format!(
             r#"
-            "<div class="w3-twothird w3-panel">
-                <table class="w3-table w3-centered">
+            "<div>
+                <table>
                     <tr>
                         <td>hostname</td>
                         <td>up</td>
