@@ -26,8 +26,8 @@ clean:
 install: test
     cargo install -f --path {{ justfile_directory() }}
 
-podman_build:
-    podman pull docker.io/rustlang/rust:nightly-alpine docker.io/alpine:3.20
+podman_build version="latest":
+    podman pull docker.io/rustlang/rust:nightly-alpine docker.io/alpine:3.21
     podman build -t ghcr.io/thasos/monit-agregator:latest .
 # fake, use podman
 docker_build:
