@@ -99,27 +99,29 @@ fn display_monit_report(report: MonitReport) -> String {
     //    }
     //    None => ("orange", String::from("⚠️ unknow ⚠️")),
     //};
-    //let highlighted_percent_up = format!("<font color={}>{}</font></h2>", color, pretty_percent_up);
+    //let highlighted_percent_up = format!("<font color={}>{}</font>", color, pretty_percent_up);
 
     let highlighted_percent_up = match report.percent_up {
         Some(percent) => {
             if percent == 100.0 {
-                format!("<font color=green>✅ {percent} ✅</font></h2>")
+                format!("<font color=green>✅ {percent} ✅</font>")
             } else {
-                format!("<font color=red>☠️ {percent} ☠️</font></h2>")
+                format!("<font color=red>☠️ {percent} ☠️</font>")
             }
         }
-        None => String::from("<font color=orange>⚠️ unknow ⚠️</font></h2>"),
+        None => String::from("<font color=orange>⚠️ unknow ⚠️</font>"),
     };
 
     // pretty print in html
     let parsed_report = format!(
-        "<td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>",
+        "
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+        </tr>",
         highlighted_percent_up,
         report.get_nb_up(),
         report.get_nb_down(),
@@ -174,19 +176,18 @@ pub async fn generate_home(
                 None => monit_hosts_list[position].url.clone(),
             };
 
-            // if three th, do a tr
-            let rest = (position + 1) % 3;
-            let is_divisible = rest == 0;
-            let table_new_line = if is_divisible { "</tr>\n<tr>\n" } else { "" };
+            // // if three th, do a tr
+            // let rest = (position + 1) % 3;
+            // let is_divisible = rest == 0;
+            // let table_new_line = if is_divisible { "</tr>\n<tr>\n" } else { "" };
 
             // add a html th
             pretty_status = format!(
-                "{}<th><h2><a href=\"{}\">{}</a><br />\n{}</th>\n{}",
+                "{}<td><a href=\"{}\">{}</a>\n{}</td>\n",
                 &pretty_status,
                 url_link,
                 host.name.clone(),
                 pretty_report,
-                table_new_line,
             );
 
             // incremental send

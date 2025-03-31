@@ -39,6 +39,21 @@ pub async fn serve_http(
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
     </head>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+    </style>
     <body>
             <div>
             <h1>Monit-Agregator</h1>
@@ -79,19 +94,18 @@ pub async fn serve_http(
         let pretty_status = rx.borrow().to_owned();
         let html_body = format!(
             r#"
-            "<div>
+            <div>
                 <table>
                     <tr>
-                        <td>hostname</td>
-                        <td>up</td>
-                        <td>down</td>
-                        <td>initialising</td>
-                        <td>unmonitored</td>
-                        <td>total</td>
+                        <th>hostname</th>
+                        <th>ratio</th>
+                        <th>up</th>
+                        <th>down</th>
+                        <th>initialising</th>
+                        <th>unmonitored</th>
+                        <th>total</th>
                     </tr>
-                    <tr>
-                        {}
-                    </tr>
+                    {}
                 </table>
             </div>"#,
             pretty_status
