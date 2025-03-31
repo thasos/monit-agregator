@@ -114,12 +114,12 @@ fn display_monit_report(report: MonitReport) -> String {
 
     // pretty print in html
     let parsed_report = format!(
-        "{}
-        up: {}<br />
-        down: {}<br />
-        initialising: {}<br />
-        unmonitored: {}<br />
-        total: {}",
+        "<td>{}</td>
+        <td>{}</td>
+        <td>{}</td>
+        <td>{}</td>
+        <td>{}</td>
+        <td>{}</td>",
         highlighted_percent_up,
         report.get_nb_up(),
         report.get_nb_down(),

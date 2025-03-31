@@ -82,6 +82,14 @@ pub async fn serve_http(
             "<div class="w3-twothird w3-panel">
                 <table class="w3-table w3-centered">
                     <tr>
+                        <td>hostname</td>
+                        <td>up</td>
+                        <td>down</td>
+                        <td>initialising</td>
+                        <td>unmonitored</td>
+                        <td>total</td>
+                    </tr>
+                    <tr>
                         {}
                     </tr>
                 </table>
