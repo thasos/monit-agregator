@@ -68,39 +68,20 @@ fn parse_monit_report(monit_report: &str) -> MonitReport {
             let value = splitted_value[0];
             match field {
                 "up" => {
-                    report.nb_up = match value.parse() {
-                        Ok(val) => Some(val),
-                        Err(_) => None,
-                    };
-                    report.percent_up = match splitted_value[1].replace(['(', ')', '%'], "").parse()
-                    {
-                        Ok(val) => Some(val),
-                        Err(_) => None,
-                    };
+                    report.nb_up = value.parse().ok();
+                    report.percent_up = splitted_value[1].replace(['(', ')', '%'], "").parse().ok();
                 }
                 "down" => {
-                    report.nb_down = match value.parse() {
-                        Ok(val) => Some(val),
-                        Err(_) => None,
-                    }
+                    report.nb_down = value.parse().ok();
                 }
                 "initialising" => {
-                    report.nb_initialising = match value.parse() {
-                        Ok(val) => Some(val),
-                        Err(_) => None,
-                    }
+                    report.nb_initialising = value.parse().ok();
                 }
                 "unmonitored" => {
-                    report.nb_unmonitored = match value.parse() {
-                        Ok(val) => Some(val),
-                        Err(_) => None,
-                    }
+                    report.nb_unmonitored = value.parse().ok();
                 }
                 "total" => {
-                    report.total = match value.parse() {
-                        Ok(val) => Some(val),
-                        Err(_) => None,
-                    }
+                    report.total = value.parse().ok();
                 }
                 &_ => (),
             }
