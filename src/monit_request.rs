@@ -93,21 +93,26 @@ pub fn get_monit(hosts_urls: Vec<MonitHosts>, hostname: &str) -> String {
 mod tests {
     use super::*;
     //use mockito;
-    use mockito::mock;
+    // use mockito::mock;
 
     #[test]
     fn test_get_monit() {
-        // create mock content, path, etc...
+        let mut server = mockito::Server::new();
+        // let host = server.host_with_port();
+        // let url = server.url();
         let content_tested = "blablabla";
-        let _mt = mock("GET", "/")
+        // let mock = server
+        server
+            .mock("GET", "/")
             .with_status(200)
             .with_header("content-type", "application/json")
             .with_body(content_tested)
             .create();
+        // mock.assert();
 
         // call get_monit
         let hostname = "tarsis";
-        let url = &mockito::server_url();
+        let url = server.url();
         let hosts_urls = vec![MonitHosts {
             name: hostname.to_owned(),
             url: url.to_owned(),
