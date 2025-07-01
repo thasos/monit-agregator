@@ -25,15 +25,15 @@ assets = [
 ]
 
 [dependencies]
-tokio = { version = "1.45.0", features = ["full"] }
+tokio = { version = "1.45.1", features = ["full"] }
 warp = "0.3.7"
-reqwest = { version = "0.12.15", features = ["blocking", "json"] }
+reqwest = { version = "0.12.20", features = ["blocking", "json"] }
 futures = "0.3.31"
 config = "0.15.0"
 serde = { version = "1.0.97", features = ["derive"] }
 log = "0.4.27"
 env_logger = "0.11.0"
-clap = { version = "4.5.37", features = ["derive"] }
+clap = { version = "4.5.40", features = ["derive"] }
 unicode-segmentation = "1.9.0"
 
 [dev-dependencies]
@@ -48,4 +48,4 @@ lto = true
 codegen-units = 1
 
 [target.x86_64-unknown-linux-musl.dependencies]
-openssl-sys = { version = "0.9.76", features = ["vendored"] }
+openssl-sys = { version = "0.9.109", features = ["vendored"] }
