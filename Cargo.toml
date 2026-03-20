@@ -25,20 +25,20 @@ assets = [
 ]
 
 [dependencies]
-tokio = { version = "1.45.1", features = ["full"] }
+tokio = { version = "1.50.0", features = ["full"] }
 warp = "0.3.7"
 reqwest = { version = "0.12.20", features = ["blocking", "json"] }
-futures = "0.3.31"
-config = "0.15.0"
+futures = "0.3.32"
+config = "0.15.22"
 serde = { version = "1.0.97", features = ["derive"] }
-log = "0.4.27"
-env_logger = "0.11.0"
-clap = { version = "4.5.40", features = ["derive"] }
+log = "0.4.29"
+env_logger = "0.11.9"
+clap = { version = "4.6.0", features = ["derive"] }
 unicode-segmentation = "1.9.0"
 
 [dev-dependencies]
 #trycmd = "0.13.3"
-mockito = "1.0"
+mockito = "1.7.2"
 
 [profile.release]
 panic = 'abort' # No unwinding on panic
@@ -48,4 +48,4 @@ lto = true
 codegen-units = 1
 
 [target.x86_64-unknown-linux-musl.dependencies]
-openssl-sys = { version = "0.9.109", features = ["vendored"] }
+openssl-sys = { version = "0.9.112", features = ["vendored"] }
