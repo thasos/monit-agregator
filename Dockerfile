@@ -12,7 +12,7 @@ RUN just release_musl \
  && upx target/x86_64-unknown-linux-musl/release/monit-agregator
 
 #--------------------------------
-FROM alpine:3.22
+FROM alpine:3.23
 
 RUN addgroup -g 10666 -S monagr \
  && adduser -u 10666 -S monagr -G monagr
